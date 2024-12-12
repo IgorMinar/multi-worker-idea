@@ -1,10 +1,9 @@
-# The middleware Worker is the entry-point
-name = "my-app-middleware"
+# The entry-point Worker
+name = "my-app"
 compatibility_date = "2024-12-01"
-main = "./entry-worker.ts"
+main = "./entry.ts"
 
-# It has an versioned binding to the SSR worker
+# It has an versioned binding to the MIDDLEWARE worker
 [[auxiliary_workers]]
-binding = "SSR"
-config = "ssr/wrangler.toml"
-# entry_point = "ssr/index.js"
+binding = "MIDDLEWARE"
+config = "middleware/wrangler.toml"

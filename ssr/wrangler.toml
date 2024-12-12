@@ -1,15 +1,14 @@
-# The SSR worker is internal to the application and
-# can only be accessed via service binding.
+# The SSR worker is internal to the application and can only be accessed via service binding.
 # In this case, from the middleware worker.
 name = "my-app-ssr"
 compatibility_date = "2024-12-01"
-main = "./ssr-worker.ts"
+main = "./index.ts"
 
 # This worker is smart placed so that the user code can be positioned near datasources
 placement = { mode = "smart" }
 
 # This worker has assets which are served directly (near the eye-ball)
-assets = { directory = "../../public" }
+assets = { directory = "public" }
 
 # Since this is an auxiliary worker certain wrangler config properties are not relevant and should be errors.
 # For example this Worker should not be externally triggerable, so `routes` and `triggers` should be banned.
