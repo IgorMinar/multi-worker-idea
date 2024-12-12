@@ -7,3 +7,4 @@ main = "./entry-worker.ts"
 [[auxiliary_workers]]
 binding = "SSR"
 config = "ssr/wrangler.toml"
+# entry_point = "ssr/index.js"
