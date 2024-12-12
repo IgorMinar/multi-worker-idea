@@ -2,6 +2,11 @@
 
 Wrangler should follow `auxiliary_workers` bindings automatically so the user only has to think about the entry Worker.
 
+Auxiliary Workers only exist in the context of the entry-point Worker.
+They are effectively internal private Workers that can only be accessed via Service Bindings - either from the entry-point Worker or other auxiliary Workers.
+The bindings between these Workers are versioned so that it is not possible to have version skew.
+Wrangler/EWC should deploy all the auxiliary Workers for a Worker in a single action.
+
 ## Development
 
 ```bash
