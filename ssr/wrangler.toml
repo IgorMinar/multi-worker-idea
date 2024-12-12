@@ -10,3 +10,7 @@ placement = { mode = "smart" }
 
 # This worker has assets which are served directly (near the eye-ball)
 assets = { directory = "../../public" }
+
+# Since this is an auxiliary worker certain wrangler config properties are not relevant and should be errors.
+# For example this Worker should not be externally triggerable, so `routes` and `triggers` should be banned.
+# Equally this Worker should not be able to consume a queue or act as a tail worker, etc.
