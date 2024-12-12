@@ -1,0 +1,9 @@
+# The middleware Worker is the entry-point
+name = "my-app-middleware"
+compatibility_date = "2024-12-01"
+main = "./entry-worker.ts"
+
+# It has an versioned binding to the SSR worker
+[[auxiliary_workers]]
+binding = "SSR"
+config = "ssr/wrangler.toml"

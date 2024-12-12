@@ -1,0 +1,12 @@
+# The SSR worker is internal to the application and
+# can only be accessed via service binding.
+# In this case, from the middleware worker.
+name = "my-app-ssr"
+compatibility_date = "2024-12-01"
+main = "./ssr-worker.ts"
+
+# This worker is smart placed so that the user code can be positioned near datasources
+placement = { mode = "smart" }
+
+# This worker has assets which are served directly (near the eye-ball)
+assets = { directory = "../../public" }
