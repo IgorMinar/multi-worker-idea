@@ -11,6 +11,8 @@ The external facing aspect is entirely defined by the entry-point Worker.
 This is the only one that can have triggers attached to it - e.g. Routes, Cron triggers, Queue consumers, Tail consumer, etc.
 It is also the only one that can be service bound to from outside this Worker (i.e. using a traditional `services` binding).
 
+[Diagram](https://www.tldraw.com/ro/zkDVgtFszd6N6WgJvea34?d=v-120.17.1512.857.page)
+
 ## Development
 
 ```bash
