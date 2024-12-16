@@ -1,0 +1,19 @@
+# The SSR worker is the ORIGIN worker of the application, with the following behavior:
+# - this is just a regular worker, that can have bindings, assets, can be smartly placed, etc
+# - this worker can be routed to via custom domains, or routes.
+# - there is nothing special about this worker, except that it defines a middleware field below
+
+name = "my-app-ssr"
+compatibility_date = "2024-12-01"
+main = "./index.ts"
+
+# This worker is smart placed so that the user code can be positioned near datasources
+placement = { mode = "smart" }
+
+# This worker has assets which are served directly (near the eye-ball)
+assets = { directory = "public" }
+
+# This requests that a worker is frontend by another middleware/proxy worker that is
+# deployed and placed independently of this origin worker. 
+middleware = "<MIDDLEWARE_WORKER_NAME">
+

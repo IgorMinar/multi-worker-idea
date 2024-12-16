@@ -7,8 +7,8 @@ export default {
       return Response.redirect(new URL("new-path", url));
     }
 
-    // Delegate to the SSR worker
-    const response: Response = await env.SSR.fetch(request);
+    // Delegate to the the ORIGIN worker
+    const response: Response = await env.ORIGIN.fetch(request);
 
     // Maybe add a response header
     if (response.headers.get("Content-Type")?.startsWith("image/")) {
