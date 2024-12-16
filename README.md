@@ -13,9 +13,8 @@ It works as follows:
   - otherwise behaves like a regular worker
   - it has binidngs, triggers, and could even be smartly-placed however the effectiveness of that is questionable
   - it can be tailed, and logged, just like a normal worker
-  - it defines a new type of binding called `origin`, which can be used to delegate requests to the worker which uses it as its middleware.
-  - the `origin` binding uses the usual `Fetcher` interface.
-
+  - (optionally) it defines a new type of binding called `origin`, which can be used to delegate requests to the worker which uses it as its middleware. The `origin` binding uses the usual `Fetcher` interface.
+    - alternatively, any fetch with the same origin is treated as a call to the origin worker.
 
 2. A user creates a regular worker with static assets. See the `origin/` folder.
 
@@ -24,7 +23,7 @@ It works as follows:
    - the middleware declaration is designed after the precences set by [outbound](https://developers.cloudflare.com/cloudflare-for-platforms/workers-for-platforms/configuration/outbound-workers/) and [tail](https://developers.cloudflare.com/workers/observability/logs/tail-workers/) workers
    - when this origin worker is deployed, the internal superpipeline is constructed in a way where:
      - the middleware worker receives the request targetting this worker
-     - the origin worker receives the request only if the middleware worker dispatches the request via the `origin` binding
+     - the origin worker receives the request only if the middleware worker dispatches the request via a same-origin-`fetch` (or the `origin` binding)
      - the middleware intercepts all calls to static assets
 
 

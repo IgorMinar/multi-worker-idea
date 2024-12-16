@@ -4,5 +4,6 @@ name = "my-app-middleware"        # Maybe doesn't strictly need a name?
 compatibility_date = "2024-12-01"
 main = "./index.ts"
 
-[origin]
-binding = "ORIGIN"
+# optionally, we could make the origin binding explicit:
+# [origin]
+# binding = "ORIGIN"

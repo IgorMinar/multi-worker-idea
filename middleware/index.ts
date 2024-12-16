@@ -7,8 +7,8 @@ export default {
       return Response.redirect(new URL("new-path", url));
     }
 
-    // Delegate to the the ORIGIN worker
-    const response: Response = await env.ORIGIN.fetch(request);
+    // Delegate to the origin worker
+    const response: Response = await fetch(request);
 
     // Maybe add a response header
     if (response.headers.get("Content-Type")?.startsWith("image/")) {
