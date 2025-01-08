@@ -16,7 +16,3 @@ assets = { directory = "public" }
 # This requests that a worker is frontend by another middleware/proxy worker that is
 # deployed and placed independently of this origin worker. 
 middleware = "my-app-middleware"
-
-# optionally, we could support multiple middlewares:
-# middleware = ["my-app-middleware", "my-other-middleware"]
-

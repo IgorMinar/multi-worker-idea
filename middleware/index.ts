@@ -8,7 +8,7 @@ export default {
     }
 
     // Delegate to the origin worker
-    const response: Response = await fetch(request);
+    const response: Response = await env.ORIGIN.fetch(request);
 
     // Maybe add a response header
     if (response.headers.get("Content-Type")?.startsWith("image/")) {

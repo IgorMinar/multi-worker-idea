@@ -1,9 +1,10 @@
 # The middleware Worker is internal to the application and can only be accessed via service binding.
 # In this case, from the entry-point worker.
-name = "my-app-middleware"        # Maybe doesn't strictly need a name?
+name = "my-app-middleware"
 compatibility_date = "2024-12-01"
 main = "./index.ts"
+workers_dev = false
 
-# optionally, we could make the origin binding explicit:
-# [origin]
-# binding = "ORIGIN"
+[[services]]
+binding = "ORIGIN"
+service = "my-app-ssr"
