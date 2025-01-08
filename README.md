@@ -3,7 +3,7 @@
 This repository contains a proposal for solving the Workers Assets middleware problem.
 The example shows ability to run code in front of static assets, without compromising ability to run code behind static assets as well, or ability to place the middleware code at the edge, while the backend code could be smartly placed nearby the data it operates on.
 
-This is a different take on [Pete's original proposal](https://github.com/petebacondarwin/multi-worker-idea/tree/main) that solves how to do asset middlewares via multi-worker approach.
+This is a different take on [Pete's original proposal](https://github.com/petebacondarwin/multi-worker-idea/tree/main) that solves how to do asset middlewares via a multi-worker approach designed by following the existing precedences set by [outbound](https://developers.cloudflare.com/cloudflare-for-platforms/workers-for-platforms/configuration/outbound-workers/) and [tail](https://developers.cloudflare.com/workers/observability/logs/tail-workers/) workers.
 
 The gist of the idea is that asset middlewares can be modeled after procedences in the platform (mainly outbound and tail workers) as an incrementally addition to the platform without introduction of new major features.
 
@@ -22,7 +22,7 @@ It works as follows:
 
    - there is nothing special about this worker, except for middleware declaration
    - this worker can have bindings, triggers, static assets, and can be smartly placed 
-   - the middleware declaration is designed after the precedences set by [outbound](https://developers.cloudflare.com/cloudflare-for-platforms/workers-for-platforms/configuration/outbound-workers/) and [tail](https://developers.cloudflare.com/workers/observability/logs/tail-workers/) workers
+   - the middleware declaration is designed by following the existing precedences set by [outbound](https://developers.cloudflare.com/cloudflare-for-platforms/workers-for-platforms/configuration/outbound-workers/) and [tail](https://developers.cloudflare.com/workers/observability/logs/tail-workers/) workers
    - when this origin worker is deployed, the internal superpipeline is constructed in a way where:
      - the middleware worker receives the request targetting this worker
      - the origin worker receives the request only if the middleware worker dispatches the request via a same-origin-`fetch` (or the `origin` binding)
