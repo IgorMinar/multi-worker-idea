@@ -5,28 +5,29 @@ The example shows ability to run code in front of static assets, without comprom
 
 This is a different take on [Pete's original proposal](https://github.com/petebacondarwin/multi-worker-idea/tree/main) that solves how to do asset middlewares via a multi-worker approach designed by following the existing precedences set by [outbound](https://developers.cloudflare.com/cloudflare-for-platforms/workers-for-platforms/configuration/outbound-workers/) and [tail](https://developers.cloudflare.com/workers/observability/logs/tail-workers/) workers.
 
-The gist of the idea is that asset middlewares can be modeled after procedences in the platform (mainly outbound and tail workers) as an incrementally addition to the platform without introduction of new major features.
+The gist of the idea is that asset middlewares can be modeled after precedences in the platform (mainly outbound and tail workers) as an incrementally addition to the platform without introduction of new major features.
 
 It works as follows:
 
 1. A user creates a new middleware worker with middleware logic. See the `middleware/` folder.
 
-  - this is just a normal worker with one exception, it is not exposed via routes or custom domain
-  - otherwise behaves like a regular worker
-  - it has bindings, triggers, and could even be smartly-placed however if it makes sense
-  - it can be tailed, and logged, just like a normal worker
-  - (optionally) it defines a new type of binding called `origin`, which can be used to delegate requests to the worker which uses it as its middleware. The `origin` binding uses the usual `Fetcher` interface.
-    - alternatively, any fetch with the same origin is treated as a call to the origin worker just like the original Workers CDN middleware works.
+  - This is just a normal worker with one exception, it is not exposed via routes or a custom domain, requests are routed to it only because the origin worker declares this the `middleware/` worker as it's "middleware" in wrangler.toml.
+  - Otherwise behaves like a regular worker.
+  - It has bindings, triggers, and could even be smartly-placed however if it makes sense.
+  - It can be tailed, and logged, just like a normal worker.
+  - (optionally) It defines a new type of binding called `origin`, which can be used to delegate requests to the worker which uses it as its middleware. The `origin` binding uses the usual `Fetcher` interface that behaves similarly to service-bindings except that the middleware doesn't need to know the target of the service-binding, which makes it reusable across multiple origin workers.
+    - Alternatively, any fetch with the same origin is treated as a call to the origin worker just like the original Workers CDN middleware works, but this feels magical. Explicitness would help here and make the code easier to understand and easier to test.
+    - Another alternative is to use regular service-binding to the `origin/` but that will tightly couple the middleware worker to the origin worker, which will make re-usability of middleware workers across multiple workers difficult.
 
 2. A user creates a regular worker with static assets. See the `origin/` folder.
 
-   - there is nothing special about this worker, except for middleware declaration
-   - this worker can have bindings, triggers, static assets, and can be smartly placed 
-   - the middleware declaration is designed by following the existing precedences set by [outbound](https://developers.cloudflare.com/cloudflare-for-platforms/workers-for-platforms/configuration/outbound-workers/) and [tail](https://developers.cloudflare.com/workers/observability/logs/tail-workers/) workers
-   - when this origin worker is deployed, the internal superpipeline is constructed in a way where:
-     - the middleware worker receives the request targetting this worker
-     - the origin worker receives the request only if the middleware worker dispatches the request via a same-origin-`fetch` (or the `origin` binding)
-     - the middleware intercepts all calls to static assets
+   - There is nothing special about this worker, except for middleware declaration in wrangler.toml.
+   - This worker can have bindings, triggers, static assets, and can be smartly placed.
+   - The middleware declaration is designed by following the existing precedences set by [outbound](https://developers.cloudflare.com/cloudflare-for-platforms/workers-for-platforms/configuration/outbound-workers/) and [tail](https://developers.cloudflare.com/workers/observability/logs/tail-workers/) workers.
+   - When this origin worker is deployed, the internal super-pipeline is constructed in a way where:
+     - The middleware worker receives the request targeting this worker.
+     - The origin worker receives the request only if the middleware worker dispatches the request via a same-origin-`fetch` (or the `origin` binding).
+     - The middleware intercepts all calls to static assets.
 
 
 ## Trade offs
